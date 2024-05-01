@@ -167,103 +167,10 @@ domains:
 
 - **Service Management:** Monitoring, Logging, Auditing, Alerting
 
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 11%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
-<col style="width: 13%" />
-<col style="width: 11%" />
-<col style="width: 11%" />
-<col style="width: 12%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Aspects</th>
-<th colspan="7">Domains</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Compute</td>
-<td><p>Bare Metal</p>
-<p>Servers</p></td>
-<td>Virtual Servers</td>
-<td>Virtualization</td>
-<td>Containers</td>
-<td>Serverless</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Storage</td>
-<td>Primary Storage</td>
-<td>Backup</td>
-<td>Archive</td>
-<td><p>Data</p>
-<p>Migration</p></td>
-<td>SDS</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Networking</td>
-<td>Enterprise Connectivity</td>
-<td>BYOIP/Edge Gateways</td>
-<td>Segmentation and Isolation</td>
-<td>Cloud Native Connectivity</td>
-<td>Load Balancing</td>
-<td>CDN</td>
-<td>DNS</td>
-</tr>
-<tr class="even">
-<td>Security</td>
-<td>Data Security</td>
-<td>Identity &amp; Access Management</td>
-<td>Application Security</td>
-<td>Infrastructure and Endpoint</td>
-<td>Threat Detection &amp; Response</td>
-<td>Governance, Risk &amp; Compliance</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Resiliency</td>
-<td><p>High</p>
-<p>Availability</p></td>
-<td>Disaster Recovery</td>
-<td>Backup and Restore</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>Service Management</td>
-<td>Monitoring</td>
-<td>Logging</td>
-<td>Auditing</td>
-<td>Alerting</td>
-<td>Event Management</td>
-<td>Automated Deployment</td>
-<td>Management/ Orchestration</td>
-</tr>
-<tr class="odd">
-<td>Data</td>
-<td>Application Integration</td>
-<td>Data Ops</td>
-<td>Data Analytics</td>
-<td>Data Storage</td>
-<td><p>Business</p>
-<p>Intelligence</p></td>
-<td><p>Artificial</p>
-<p>Intelligence</p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<img src="./media/image1.png" style="width:6.5in;height:2.75556in"
+alt="A table with text on it Description automatically generated" />
 
-Domains covered in this document
+\*Domains covered in this document are indicated in Green.
 
 \[Multi-Zone Resiliency for ROKS Solution Design Scope\]
 
@@ -312,7 +219,7 @@ enterprise-ready ROKS deployed in a public cloud.
 - Compatible/recommended nodes (that are currently available for ROKS on
   IBM Cloud – Virtual Servers Instances Shared) are used for worker
   nodes to run stateful application in production environment.  
-  <img src="./media/image1.png" style="width:4.086in;height:2.09904in" />Ref:
+  <img src="./media/image2.png" style="width:4.086in;height:2.09904in" />Ref:
   IBM Cloud Docs
 
 - High performance Secondary storage (10 IOPS Block) is used and
@@ -321,7 +228,7 @@ enterprise-ready ROKS deployed in a public cloud.
   Converged architecture (compute and storage in same node). Built-in
   internal key-value database (KVDB) is used for Portworx cluster.
 
-- <img src="./media/image2.png" style="width:4.02083in;height:1.92917in"
+- <img src="./media/image3.png" style="width:4.02083in;height:1.92917in"
   alt="Portworx deployment architecture hyperconverged" />Ref: Portworx
   Docs
 
@@ -374,7 +281,7 @@ enterprise-ready ROKS deployed in a public cloud.
 
 ## 4.1 Solution Architecture Diagram
 
-<img src="./media/image3.png" style="width:6.5in;height:4.25417in" />
+<img src="./media/image4.png" style="width:6.5in;height:4.25417in" />
 
 \[Multi-Zone Resiliency for ROKS Solution Architecture\]
 
@@ -643,50 +550,48 @@ disaster recovery for the control plane. IBM Cloud users are responsible
 for setting up highly available worker nodes. The following are
 deployment options for Red Hat OpenShift on IBM Cloud clusters:
 
-> **Single-zone clusters**
->
-> In single zone clusters, all the worker nodes are provisioned in one
-> availability zone selected by the user. For high availability, at
-> least 3 worker nodes are recommended so that application instances can
-> be distributed across multiple worker nodes to provide protection from
-> worker node failures. Red Hat OpenShift automatically reschedules pods
-> from unavailable worker nodes. In single-zone clusters, IBM Cloud
-> automatically creates three replicas of master components for high
-> availability. If the cluster is created in a multizone region, the
-> three master replicas are spread across the availability zones in the
-> region.
->
-> Single-zone clusters provide protection from logical and container
-> failures but do not protect from zone failures or physical host
-> failures since there is no guarantee that the worker nodes will be
-> placed in different physical hosts. Single-zone clusters provide
-> cost-effective solutions with 99.9% infrastructure availability that
-> might be appropriate for non-production environments or non-business
-> critical applications.
->
-> **Multi-zone clusters**
->
-> In multi-zone clusters, the worker nodes are distributed across
-> availability zones selected by the user. IBM Cloud automatically
-> provisions three replicas of master components spread across
-> availability zones within a region for high availability.
->
-> It is recommended to spread the worker nodes evenly across three
-> zones, with 50% capacity provisioned in each zone for a total 150%
-> capacity across all worker nodes. This is a cost-efficient solution
-> that guarantees 100% capacity for the workloads in the event of one
-> zone failure and provides 99.99% infrastructure availability. In
-> contrast, spreading the nodes across two zones would require 100%
-> capacity in each zone for a total capacity of 200% vs 150% and would
-> offer only 99.9% infrastructure availability.
->
-> Multi-zone clusters, also known as stretched clusters, provide
-> protection from zone failures and physical host failures. If resources
-> in one zone go down, the workloads can continue to run in worker nodes
-> in the other zones.
->
-> Multi-zone clusters are recommended for business-critical
-> applications.
+**Single-zone clusters**
+
+In single zone clusters, all the worker nodes are provisioned in one
+availability zone selected by the user. For high availability, at least
+3 worker nodes are recommended so that application instances can be
+distributed across multiple worker nodes to provide protection from
+worker node failures. Red Hat OpenShift automatically reschedules pods
+from unavailable worker nodes. In single-zone clusters, IBM Cloud
+automatically creates three replicas of master components for high
+availability. If the cluster is created in a multizone region, the three
+master replicas are spread across the availability zones in the region.
+
+Single-zone clusters provide protection from logical and container
+failures but do not protect from zone failures or physical host failures
+since there is no guarantee that the worker nodes will be placed in
+different physical hosts. Single-zone clusters provide cost-effective
+solutions with 99.9% infrastructure availability that might be
+appropriate for non-production environments or non-business critical
+applications.
+
+**Multi-zone clusters**
+
+In multi-zone clusters, the worker nodes are distributed across
+availability zones selected by the user. IBM Cloud automatically
+provisions three replicas of master components spread across
+availability zones within a region for high availability.
+
+It is recommended to spread the worker nodes evenly across three zones,
+with 50% capacity provisioned in each zone for a total 150% capacity
+across all worker nodes. This is a cost-efficient solution that
+guarantees 100% capacity for the workloads in the event of one zone
+failure and provides 99.99% infrastructure availability. In contrast,
+spreading the nodes across two zones would require 100% capacity in each
+zone for a total capacity of 200% vs 150% and would offer only 99.9%
+infrastructure availability.
+
+Multi-zone clusters, also known as stretched clusters, provide
+protection from zone failures and physical host failures. If resources
+in one zone go down, the workloads can continue to run in worker nodes
+in the other zones.
+
+Multi-zone clusters are recommended for business-critical applications.
 
 **Application availability**
 
@@ -819,7 +724,7 @@ level:
   this time, PX-Backup does not support an externally managed database
   as the datastore.
 
-> <img src="./media/image4.png" style="width:2.96528in;height:3.23488in"
+> <img src="./media/image5.png" style="width:2.96528in;height:3.23488in"
 > alt="Portworx Backup Architecture" />
 
 # 10. Service Management Design Considerations
